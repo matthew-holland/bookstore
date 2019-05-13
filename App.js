@@ -13,8 +13,10 @@ import Search from "./components/Search.js";
 import Books from "./components/Books.js";
 import Bookshelf from "./components/Bookshelf.js";
 
-type Props = {};
-export default class App extends Component<Props> {
+//type Props = {};
+
+//<Props>  this came after Component
+export default class App extends Component {
   render() {
     return (
       <NativeRouter>

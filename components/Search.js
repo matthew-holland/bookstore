@@ -83,21 +83,36 @@ export default class App extends React.Component {
     );
   };
 
-  render() {
+  render(props) {
     const { testStuff, bookResults, isLoading, hasError } = this.state;
 
     return (
       <SafeAreaView>
         {this.renderHeader()}
         <FlatList
-          data={bookResults.data.books}
-          renderItem={({ items }) => {
-            console.log(items);
-            return <ListItem roundAvatar title={items.title} />;
+          data={bookResults.data && bookResults.data.books}
+          renderItem={items => {
+            return (
+              <ListItem
+                key={items.item.id}
+                roundAvatar
+                title={items.item.title}
+                subtitle={items.item.authors && items.item.authors[0]}
+                rightAvatar={
+                  items.item.imageLinks && {
+                    source: { uri: items.item.imageLinks.smallThumbnail }
+                  }
+                }
+                onPress={() =>
+                  this.props.history.push("/Books", {
+                    bookId: items.item.id
+                  })
+                }
+              />
+            );
           }}
           ItemSeparatorComponent={this.renderSeparator}
         />
-        }{/* {<Text>{JSON.stringify(bookResults)}</Text>} */}
       </SafeAreaView>
     );
   }
