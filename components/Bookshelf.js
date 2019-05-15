@@ -29,8 +29,10 @@ export default class App extends React.Component {
           hasError: true
         });
       });
+  };
 
-    this.props.history.push("/bookshelf");
+  handleUpdate = () => {
+    this.setState({ workingId: "" });
   };
 
   addBook = shelfKey => {
@@ -55,6 +57,8 @@ export default class App extends React.Component {
           hasError: true
         });
       });
+
+    this.handleUpdate();
   };
 
   renderDrawer = () => {

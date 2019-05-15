@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
+import { List, ListItem, SearchBar, Header } from "react-native-elements";
 import Link from "react-router-native";
 import axios from "axios";
 
@@ -59,14 +59,6 @@ export default class App extends React.Component {
 
   renderHeader = () => {
     return (
-      <Header
-            leftComponent={{
-              icon: "book",
-              color: "#fff",
-              onPress: () => this.history.push("/bookshelf")
-            }}
-           
-          />
       <SearchBar
         placeholder="Find a book..."
         lightTheme
@@ -97,6 +89,13 @@ export default class App extends React.Component {
     return (
       <SafeAreaView>
         {this.renderHeader()}
+        <Header
+          leftComponent={{
+            icon: "book",
+            color: "#fff",
+            onPress: () => this.props.history.push("/bookshelf")
+          }}
+        />
         <FlatList
           data={bookResults.data && bookResults.data.books}
           renderItem={items => {
