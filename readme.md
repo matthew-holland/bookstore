@@ -9,6 +9,8 @@ react-native run-ios
 
 you must also navigate to /server and 'yarn start' there
 
+Please note: when you are at your bookshelf page and would like to move a book to a new shelf, long press on that book and the drawer menu will pop up.
+
 ### Prerequisites
 
 hopefully yarn takes care of all these packages

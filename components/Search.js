@@ -98,10 +98,10 @@ export default class App extends React.Component {
         />
         <FlatList
           data={bookResults.data && bookResults.data.books}
-          renderItem={items => {
+          renderItem={(items, i) => {
             return (
               <ListItem
-                key={items.item.id}
+                key={items.item.id ? items.item.id : i}
                 roundAvatar
                 title={items.item.title}
                 subtitle={items.item.authors && items.item.authors[0]}

@@ -18,7 +18,7 @@ export default class App extends React.Component {
       .get(url)
       .then(response => {
         this.setState({
-          bookResults: response,
+          bookResults: response.data.books,
           isLoading: false,
           hasError: false
         });
@@ -29,10 +29,6 @@ export default class App extends React.Component {
           hasError: true
         });
       });
-  };
-
-  handleUpdate = () => {
-    this.setState({ workingId: "" });
   };
 
   addBook = shelfKey => {
@@ -41,24 +37,31 @@ export default class App extends React.Component {
       this.state.workingId +
       "/" +
       shelfKey;
+    console.log("pre state", this.state);
 
     axios
       .get(url)
       .then(response => {
-        this.setState({
-          update: response,
-          isLoading: false,
-          hasError: false
-        });
+        console.log("RESPONSE", response);
+        this.setState(
+          {
+            bookResults: response.data.books,
+            update: response,
+            isLoading: false,
+            hasError: false
+          },
+          () => console.log(this.state)
+        );
       })
       .catch(() => {
+        console.log("CATCH");
         this.setState({
           isLoading: false,
           hasError: true
         });
       });
 
-    this.handleUpdate();
+    this.setState({ drawerOpen: false });
   };
 
   renderDrawer = () => {
@@ -127,10 +130,10 @@ export default class App extends React.Component {
       >
         <SafeAreaView>
           {/* <Text>
-          {bookResults.data &&
-            bookResults.data.books.wantToRead[0].title +
-              bookResults.data.books.wantToRead[1].title +
-              bookResults.data.books.wantToRead[2].title}
+          {bookResults &&
+            bookResults.wantToRead[0].title +
+              bookResults.wantToRead[1].title +
+              bookResults.wantToRead[2].title}
         </Text> */}
 
           <Header
@@ -147,7 +150,7 @@ export default class App extends React.Component {
 
           <Text>Books I want to read...</Text>
           <FlatList
-            data={bookResults.data && bookResults.data.books.wantToRead}
+            data={bookResults && bookResults.wantToRead}
             renderItem={items => {
               return (
                 <ListItem
@@ -174,7 +177,7 @@ export default class App extends React.Component {
           />
           <Text>Books I am currently reading...</Text>
           <FlatList
-            data={bookResults.data && bookResults.data.books.currentlyReading}
+            data={bookResults && bookResults.currentlyReading}
             renderItem={items => {
               return (
                 <ListItem
@@ -201,7 +204,7 @@ export default class App extends React.Component {
           />
           <Text>Books I have read...</Text>
           <FlatList
-            data={bookResults.data && bookResults.data.books.read}
+            data={bookResults && bookResults.read}
             renderItem={items => {
               return (
                 <ListItem
