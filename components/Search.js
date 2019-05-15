@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
+import Link from "react-router-native";
 import axios from "axios";
 
 export default class App extends React.Component {
@@ -8,8 +9,7 @@ export default class App extends React.Component {
     userInput: "",
     bookResults: {},
     isLoading: true,
-    hasError: false,
-    testStuff: ["hey", "bro", "how", "you", "doin"]
+    hasError: false
   };
 
   handleInput = searchTerm => {
@@ -59,6 +59,14 @@ export default class App extends React.Component {
 
   renderHeader = () => {
     return (
+      <Header
+            leftComponent={{
+              icon: "book",
+              color: "#fff",
+              onPress: () => this.history.push("/bookshelf")
+            }}
+           
+          />
       <SearchBar
         placeholder="Find a book..."
         lightTheme
@@ -104,7 +112,7 @@ export default class App extends React.Component {
                   }
                 }
                 onPress={() =>
-                  this.props.history.push("/Books", {
+                  this.props.history.push("/books", {
                     bookId: items.item.id
                   })
                 }

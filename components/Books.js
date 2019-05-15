@@ -18,6 +18,7 @@ import {
 } from "react-native-elements";
 import axios from "axios";
 import Drawer from "react-native-drawer";
+import Link from "react-router-native";
 
 export default class App extends React.Component {
   state = {
@@ -25,7 +26,8 @@ export default class App extends React.Component {
     bookResults: {},
     isLoading: true,
     hasError: false,
-    drawerOpen: false
+    drawerOpen: false,
+    update: {}
   };
 
   componentDidMount = () => {
@@ -48,13 +50,53 @@ export default class App extends React.Component {
       });
   };
 
+  addBook = shelfKey => {
+    let url =
+      "http://localhost:7000/bookshelf/update/" +
+      this.props.location.state.bookId +
+      "/" +
+      shelfKey;
+
+    axios
+      .get(url)
+      .then(response => {
+        this.setState({
+          update: response,
+          isLoading: false,
+          hasError: false
+        });
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+          hasError: true
+        });
+      });
+  };
+
   renderDrawer = () => {
     return (
       <SafeAreaView>
-        <Button raised title="I want to read this book" />
-        <Button raised title="I am currently reading this book" />
-        <Button raised title="I have read this book" />
-        <Button raised title="Go to my bookshelf" />
+        <Button
+          raised
+          title="I want to read this book"
+          onPress={() => this.addBook("wantToRead")}
+        />
+        <Button
+          raised
+          title="I am currently reading this book"
+          onPress={() => this.addBook("currentlyReading")}
+        />
+        <Button
+          raised
+          title="I have read this book"
+          onPress={() => this.addBook("read")}
+        />
+        <Button
+          raised
+          title="Go to my bookshelf"
+          onPress={() => this.props.history.push("/bookshelf")}
+        />
       </SafeAreaView>
     );
   };
@@ -68,7 +110,6 @@ export default class App extends React.Component {
   };
 
   render() {
-    //console.log(this.state);
     return (
       <Drawer
         open={this.state.drawerOpen}

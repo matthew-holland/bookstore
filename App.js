@@ -21,8 +21,8 @@ export default class App extends Component {
     return (
       <NativeRouter>
         <Route exact path="/" component={Search} />
-        <Route exact path="/Books" component={Books} />
-        <Route exact path="/Bookshelf" component={Bookshelf} />
+        <Route path="/Books" component={Books} />
+        <Route path="/Bookshelf" component={Bookshelf} />
       </NativeRouter>
     );
   }
